@@ -92,6 +92,15 @@ columns_to_round = ['attendance', 'participation_rate']
 processed[columns_to_round] = processed[columns_to_round].apply(lambda x: x.round(1))
 
 processed.rename(columns=participation_cols, inplace=True)
+processed = processed.sort_values(by="Party")
+
+# color palette for legend, taken from dutch field https://www.heavy.ai/blog/12-color-palettes-for-telling-better-stories-with-your-data
+
+color_discrete_map = {'PAP': '#9b19f5',
+                      'WP': '#0bb4ff',
+                      'PSP': '#e60049',                       
+                      'NMP': '#ffa300',
+                      'SPP': '#00bfa0'}
 
 fig = px.scatter(processed, x="Attendance (%)", y="Participation (%)",
                  color="Party", 
@@ -99,6 +108,7 @@ fig = px.scatter(processed, x="Attendance (%)", y="Participation (%)",
                              "Attendance (%)": True, 
                              "Participation (%)": True,
                              "Party": False},
+                 color_discrete_map=color_discrete_map,
                  title=select_parliament)
 
 # Customize hover template
